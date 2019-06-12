@@ -1,0 +1,6 @@
+.pageq{ margin:20px 0 ; text-align:center; width:100%;overflow: hidden;}
+.pageq a b {color: #999;}
+.pageq>b,.page a {margin: 0 2px;height: 26px;line-height: 26px;border-radius: 50%;width: 26px;text-align: center;display: inline-block}
+.pageq a {margin: 0 2px;height: 26px;line-height: 26px;border-radius: 50%;width: 26px;text-align: center;display: inline-block}/* 针对IE6 */
+.pageq>b,.page a:hover{background: #333;color: #FFF;}
+.pageq a {color: #F33;border: #999 1px solid;}

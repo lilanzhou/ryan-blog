@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ryan.dao.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.ryan.domain.Article" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="comment_count" property="commentCount" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="views" property="views" jdbcType="BIGINT" />
+    <result column="article_img" property="articleImg" jdbcType="VARCHAR" />
+    <result column="recommend" property="recommend" jdbcType="CHAR"/>
+    <result column="total" property="total" jdbcType="INTEGER"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.ryan.domain.Article" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, title, comment_count, create_time, views, article_img
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByTitle" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="getTotalNumArticle" resultType="java.lang.Integer">
+    select count(id) from article
+  </select>
+  <insert id="insert" parameterType="com.ryan.domain.Article" >
+    insert into article (id, user_id, title, 
+      comment_count, create_time, views, 
+      article_img, content)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{commentCount,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{views,jdbcType=BIGINT}, 
+      #{articleImg,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ryan.domain.Article" >
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="commentCount != null" >
+        comment_count,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="views != null" >
+        views,
+      </if>
+      <if test="articleImg != null" >
+        article_img,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="commentCount != null" >
+        #{commentCount,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="views != null" >
+        #{views,jdbcType=BIGINT},
+      </if>
+      <if test="articleImg != null" >
+        #{articleImg,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ryan.domain.Article" >
+    update article
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="commentCount != null" >
+        comment_count = #{commentCount,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="views != null" >
+        views = #{views,jdbcType=BIGINT},
+      </if>
+      <if test="articleImg != null" >
+        article_img = #{articleImg,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.ryan.domain.Article" >
+    update article
+    set user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      comment_count = #{commentCount,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      views = #{views,jdbcType=BIGINT},
+      article_img = #{articleImg,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ryan.domain.Article" >
+    update article
+    set user_id = #{userId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      comment_count = #{commentCount,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      views = #{views,jdbcType=BIGINT},
+      article_img = #{articleImg,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectAllArticle" resultMap="ResultMapWithBLOBs">
+    select id,user_id,title,comment_count,create_time,views,article_img,content,recommend
+    from article
+  </select>
+
+  <!--归档文章-->
+  <select id="getArticleCreatedGroup" resultMap="BaseResultMap">
+   select create_time,content,title,
+  count(*) as total from article
+ group by year(create_time),month(create_time)
+  </select>
+  <!--归档文章按日期分组-->
+  <select id="showArchivesList" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+  select id,title,content,create_time from article where
+  year(create_time) = #{year} and
+  month(create_time)=#{month}
+  </select>
+
+  <!--点击数最多的文章-->
+  <select id="getHotArticle" resultMap="BaseResultMap">
+    select id,title from article order by views desc limit 0,6
+  </select>
+  <!--博主推荐文章-->
+  <select id="recommendArticle" resultMap="BaseResultMap">
+    select id,title from article where recommend=1
+  </select>
+  <!--相关文章按标签去查找-->
+  <select id="getTagToArticle" resultMap="BaseResultMap">
+select id,title from article where id in(
+ select article_id from tag_article where tag_id=#{aid}
+ )
+  </select>
+
+
+
+</mapper>
